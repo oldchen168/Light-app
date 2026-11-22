@@ -20,6 +20,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.draw.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.*
@@ -35,8 +36,8 @@ class MainActivity:ComponentActivity(){
   val scope=rememberCoroutineScope()
   var src by remember{mutableStateOf<Bitmap?>(null)};var ana by remember{mutableStateOf<Analysis?>(null)}
   var out by remember{mutableStateOf<Bitmap?>(null)};var cur by remember{mutableIntStateOf(1)}
-  var light by remember{mutableStateOf(PRESETS[1].light.copy())};var protect by remember{mutableFloatStateOf(.8f)};var chroma by remember{mutableFloatStateOf(.6f)}
-  var tab by remember{mutableIntStateOf(0)};var cmp by remember{mutableStateOf(false)};var split by remember{mutableFloatStateOf(.5f)};var busy by remember{mutableStateOf("")}
+  var light by remember{mutableStateOf(PRESETS[1].light.copy())};var protect by remember{mutableFloatStateOf(0.8f)};var chroma by remember{mutableFloatStateOf(0.6f)}
+  var tab by remember{mutableIntStateOf(0)};var cmp by remember{mutableStateOf(false)};var split by remember{mutableFloatStateOf(0.5f)};var busy by remember{mutableStateOf("")}
   fun rerender(){val a=ana?:return;scope.launch{out=withContext(Dispatchers.Default){eng.relight(a,light,protect,chroma)}}}
   val picker=rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()){u->u?:return@rememberLauncherForActivityResult
    scope.launch{busy="识别人物与背景…";src=withContext(Dispatchers.IO){load(u)};ana=withContext(Dispatchers.Default){eng.analyze(src!!,1080)};busy="";rerender()}}
@@ -64,7 +65,7 @@ class MainActivity:ComponentActivity(){
       S("光源高度",light.el,-80f..85f){light=light.copy(el=it)}
       S("亮度",light.intensity,0f..2f){light=light.copy(intensity=it)};S("色温",light.kelvin,1500f..10000f){light=light.copy(kelvin=it,color=null)}
       S("环境光",light.ambient,0f..1f){light=light.copy(ambient=it)};S("阴影",light.shadow,0f..1f){light=light.copy(shadow=it)}
-      S("轮廓光",light.rim,0f..1.5f){light=light.copy(rim=it)};S("背景亮度",light.bg,.1f..1.5f){light=light.copy(bg=it)}
+      S("轮廓光",light.rim,0f..1.5f){light=light.copy(rim=it)};S("背景亮度",light.bg,0.1f..1.5f){light=light.copy(bg=it)}
       S("光线衰减",light.falloff,0f..1f){light=light.copy(falloff=it)};S("柔和过渡",light.soft,0f..1f){light=light.copy(soft=it)}
       S("墙面投影",light.cast,0f..1f){light=light.copy(cast=it)};S("背景光晕",light.glow,0f..1f){light=light.copy(glow=it)}
       S("暗角",light.vig,0f..1f){light=light.copy(vig=it)};S("光影效果",light.patternAmt,0f..1f){light=light.copy(patternAmt=it)}}

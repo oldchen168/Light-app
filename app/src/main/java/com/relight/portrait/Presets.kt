@@ -1,9 +1,9 @@
 package com.relight.portrait
 enum class Pattern{NONE,DAPPLE,BLINDS,SPOT,FLASH,FLICKER}
 data class Light(val az:Float=0f,val el:Float=45f,val intensity:Float=1f,val kelvin:Float=5500f,val color:FloatArray?=null,
- val ambient:Float=.4f,val ambColor:FloatArray?=null,val shadow:Float=.5f,val rim:Float=.2f,val rimColor:FloatArray?=null,
+ val ambient:Float=0.4f,val ambColor:FloatArray?=null,val shadow:Float=0.5f,val rim:Float=0.2f,val rimColor:FloatArray?=null,
  val bg:Float=1f,val bgColor:FloatArray?=null,val pattern:Pattern=Pattern.NONE,val patternAmt:Float=0f,
- val falloff:Float=.4f,val soft:Float=.4f,val cast:Float=0f,val glow:Float=.3f,val vig:Float=.3f)
+ val falloff:Float=0.4f,val soft:Float=0.4f,val cast:Float=0f,val glow:Float=0.3f,val vig:Float=0.3f)
 data class Preset(val en:String,val zh:String,val light:Light)
 val PRESETS=listOf(
  Preset("Dappled Light","树影斑驳光",Light(az=-40.0f,el=45.0f,intensity=1.2f,kelvin=5200.0f,color=null,ambient=0.35f,ambColor=null,shadow=0.7f,rim=0.3f,rimColor=null,bg=0.85f,bgColor=null,pattern=Pattern.DAPPLE,patternAmt=0.7f,falloff=0.35f,soft=0.3f,cast=0.4f,glow=0.4f,vig=0.3f)),
